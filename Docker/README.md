@@ -57,7 +57,7 @@ services:
       ports:
         - 8080:8080  # hostport: container port
       environment:
-        - APP=app.js
+        - USERNAME=hemu
       volumes:
         - db-data:/var/lib/mysql/data   # hostvolume: containervolume
 ```
@@ -90,7 +90,7 @@ CMD ['node','servers.js']
   2. Anonymous volume
   3. Named Volumes
 
-- `docker run -p 6000:123 -d --name <image> -v data-db:/container/volue/ <image-name>`
+- `docker run -p 6000:123 -d --name <container-name> -v data-db:/container/volue/ <image-name>`
 
 
 
