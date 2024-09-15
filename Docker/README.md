@@ -36,9 +36,61 @@
 - `docker ps -a` # show all the containers (exited ones as well)
 - Even if we run the same application twice there will be no port conflicts, as there is port binding from the host machine
 - `docker run -p6000:6379 -d redis` # then you can access redis service from the local
+- `docker run -d -p6000:6379 --name myredis redis:latest`
+- `docker logs <containerid>`
+- `docker logs <container name>`
+- `docker exec -it <container id> /bin/bash`
 
+**8. Docker Network**
+- `docker network ls`
+- `docker network create <networkname>`
+- `docker run -p6000:6379 -d --name container_name --net mynetwork image_name`
 
+**9. Docker Compose**
+- If more docker containers are need to be created , need to be communicated with each other, then we can use docker compose to structure that
+- `docker run -p 8080:8080 --name mangodb -e USERNAME=hemu --net default <imagename>`
+```yaml
+version: '3'
+services:
+    mangodb:
+      image: <imagename>
+      ports:
+        - 8080:8080  # hostport: container port
+      environment:
+        - APP=app.js
+      volumes:
+        - db-data:/var/lib/mysql/data   # hostvolume: containervolume
+```
+- Docker compose takes care of creating common network
+- When you delete the containers with the same file then automatically the network will also get deleted
+- `docker-compose -f above_file.yaml up` 
+- `docker-compose -f above_file.yaml down`
 
+**10. Docker file**
+```Docker
+FROM node
+ENV USERNAME=hemu
+ENV PASSWORD=test@123
+RUN mkdir -p /home/app
+COPY . /home/app
+CMD ['node','servers.js']
+```
+- docker build -t my-app:1.0 .
+
+**11. Push images to private registry**
+- Build image
+- docker login with the registry creds 
+- tag the image with registry tag
+- push the image
+
+**12. Docker Volumes**
+- If there is no Docker volumes data will be gone when ever the docker images get restarted
+- There three types of docker volumes
+  1. Host Volumes
+  2. Anonymous volume
+  3. Named Volumes
+
+- `docker run -p 6000:123 -d --name <image> -v data-db:/container/volue/ <image-name>`
 
 
 
